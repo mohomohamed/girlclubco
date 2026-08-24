@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ChevronDown, HelpCircle, CreditCard, Clock, MapPin, RefreshCw } from 'lucide-react';
+import Link from 'next/link';
+import { ChevronDown, HelpCircle, ShieldCheck, CreditCard, Clock, MapPin } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/config';
 
 export default function SimpleFAQ() {
@@ -9,24 +10,28 @@ export default function SimpleFAQ() {
 
   const faqs = [
     {
-      q: 'How is the MVR total calculated?',
-      a: `We use the official fixed bank exchange rate of USD 1 = MVR ${SITE_CONFIG.fixedExchangeRate.toFixed(2)}. Your cart total in USD is converted at MVR ${SITE_CONFIG.fixedExchangeRate.toFixed(2)}, plus a transparent ${SITE_CONFIG.commissionPercentage}% service commission (minimum MVR ${SITE_CONFIG.minimumCommissionMvr}) and any applicable local delivery fee.`,
+      q: 'How does the assisted ordering process work?',
+      a: 'Browse SHEIN, TEMU, or iHerb, copy your product links, and submit them through our Multi-Link Order Builder or directly on WhatsApp (+960 7614170). Our team manually evaluates item availability, stock status, and exact prices/qty before sending your final confirmation and BML/MIB transfer details.',
     },
     {
-      q: 'How do I pay in MVR?',
-      a: `Payment is made 100% in MVR via local mobile bank transfer to our Bank of Maldives (BML: ${SITE_CONFIG.bmlAccount}) or Maldives Islamic Bank (MIB: ${SITE_CONFIG.mibAccount}) accounts. No international debit or credit card needed!`,
+      q: 'How do I pay in MVR? Is it bank transfer only?',
+      a: `Payment is strictly through local bank transfer in MVR to our Bank of Maldives (BML: ${SITE_CONFIG.bmlAccount}) or Maldives Islamic Bank (MIB: ${SITE_CONFIG.mibAccount}) account. No foreign currency or international credit card is required.`,
+    },
+    {
+      q: 'Can I combine items from SHEIN, TEMU, and iHerb in one order?',
+      a: 'Yes! You can combine fashion from SHEIN, home gadgets from TEMU, and skincare from iHerb into a single consolidated order.',
     },
     {
       q: 'How long does delivery take to arrive in Maldives?',
-      a: 'Estimated delivery is generally 10 to 18 days from the scheduled batch order day. Once cleared at Malé customs, we arrange immediate collection or delivery.',
+      a: 'Estimated delivery is generally 10 to 18 business days from the scheduled batch order date. Once cleared at Malé customs, we arrange immediate doorstep delivery or boat handover.',
     },
     {
-      q: 'Where do you deliver in Maldives?',
-      a: 'We provide doorstep delivery across Malé and Hulhumalé (Phase 1 & 2), and we drop parcels directly to island boats and harbor couriers for islands throughout the Maldives.',
+      q: 'Where do you deliver in the Maldives?',
+      a: 'We provide free self-collection, doorstep delivery across Malé (+MVR 35) and Hulhumalé (+MVR 45), and direct handover to island cargo boats at Malé harbor (+MVR 75).',
     },
     {
-      q: 'What if an item in my cart goes out of stock?',
-      a: 'If any product becomes unavailable before checkout, we will immediately inform you and refund the exact MVR amount back to your bank account.',
+      q: 'What happens if an item goes out of stock?',
+      a: 'If any product becomes unavailable before checkout, we notify you immediately on WhatsApp and provide a 100% immediate refund in MVR back to your bank account.',
     },
   ];
 
@@ -41,6 +46,12 @@ export default function SimpleFAQ() {
           <h2 className="font-serif-luxury text-2xl sm:text-3xl font-bold text-slate-900">
             Frequently Asked Questions
           </h2>
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            Need more details? Check our{' '}
+            <Link href="/terms" className="text-pink-600 font-semibold underline hover:text-pink-700">
+              Terms & Conditions
+            </Link>
+          </p>
         </div>
 
         <div className="space-y-3">
