@@ -44,7 +44,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="min-h-screen flex flex-col antialiased bg-[#FAFAFC] text-slate-900 selection:bg-pink-500 selection:text-white pb-16 lg:pb-0">
+      <body className="min-h-screen flex flex-col antialiased bg-[#FAFAFC] text-slate-900 selection:bg-pink-500 selection:text-white pb-20 md:pb-0">
         <AnnouncementBar />
         <Navbar />
         <main className="flex-grow">{children}</main>

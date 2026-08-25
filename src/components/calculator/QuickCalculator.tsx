@@ -249,20 +249,20 @@ export default function QuickCalculator() {
                   className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-3 relative group"
                 >
                   {/* Header Row: Item Number, Store Badges, Remove */}
-                  <div className="flex items-center justify-between flex-wrap gap-2">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs font-bold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded-md">
+                  <div className="flex items-center justify-between gap-2 pb-1 border-b border-slate-100/80">
+                    <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-x-auto no-scrollbar py-0.5">
+                      <span className="text-xs font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded-md flex-shrink-0">
                         Item #{index + 1}
                       </span>
 
-                      {/* Store Switcher */}
-                      <div className="flex items-center gap-1 flex-wrap">
+                      {/* Store Switcher (Horizontal Scroll on Mobile) */}
+                      <div className="flex items-center gap-1 flex-shrink-0">
                         {(['shein', 'temu', 'iherb', 'aliexpress', 'asos', 'yesstyle'] as ItemStorePlatform[]).map((st) => (
                           <button
                             key={st}
                             type="button"
                             onClick={() => handleUpdateItem(item.id, 'platform', st)}
-                            className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-md uppercase transition ${
+                            className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-md uppercase transition flex-shrink-0 ${
                               item.platform === st
                                 ? getStoreBadgeColor(st)
                                 : 'bg-slate-100 text-slate-500 hover:bg-slate-200'

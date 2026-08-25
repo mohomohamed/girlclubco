@@ -8,7 +8,7 @@ export default function FloatingWhatsApp() {
   const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent('Hi GirlClub! I want to send my cart for an MVR quote.')}`;
 
   return (
-    <aside aria-label="WhatsApp Support" className="fixed bottom-6 right-4 sm:right-6 z-50 flex items-center gap-2 animate-bounce-subtle">
+    <aside aria-label="WhatsApp Support" className="hidden md:flex fixed bottom-6 right-4 sm:right-6 z-50 items-center gap-2 animate-bounce-subtle">
       <a
         href={whatsappUrl}
         target="_blank"
