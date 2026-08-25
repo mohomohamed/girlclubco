@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Store, ShoppingBag, ArrowUpRight, ArrowRight, MessageCircle, Calendar, Sparkles, Layers, ExternalLink } from 'lucide-react';
+import { Store, ShoppingBag, ArrowUpRight, ArrowRight, MessageCircle, Calendar, Sparkles, Layers } from 'lucide-react';
 import { SITE_CONFIG, STORES } from '@/lib/config';
 
 export const metadata: Metadata = {
@@ -103,7 +103,7 @@ export default function StoresPage() {
           Browse & Shop Official Stores
         </h1>
         <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
-          Click any store below to browse products on their official site. Copy the link of any item you like and paste it in our <strong>Order</strong> tab!
+          Click any store below to browse items on their official site. Copy the link of any item you like and paste it in our <strong>Order</strong> tab!
         </p>
       </div>
 
@@ -180,25 +180,17 @@ export default function StoresPage() {
                 </div>
               </div>
 
-              {/* Action: Open official store website in new tab */}
-              <div className="pt-2 flex flex-col sm:flex-row gap-2">
+              {/* Single Clean Full-Width Store Button */}
+              <div className="pt-2">
                 <a
                   href={st.externalUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`flex-1 inline-flex items-center justify-center gap-1.5 ${st.btnColor} text-white text-xs font-bold py-3 px-4 rounded-xl transition shadow-sm hover:scale-[1.01] active:scale-95`}
+                  className={`w-full inline-flex items-center justify-center gap-2 ${st.btnColor} text-white text-xs sm:text-sm font-bold py-3.5 px-5 rounded-2xl transition shadow-md hover:scale-[1.01] active:scale-95`}
                 >
                   <span>Shop on {st.name}</span>
                   <ArrowUpRight className="w-4 h-4" />
                 </a>
-
-                <Link
-                  href="/order"
-                  className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1"
-                >
-                  <span>Order Tab</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
               </div>
             </div>
           ))}
@@ -211,7 +203,7 @@ export default function StoresPage() {
               <Layers className="w-3.5 h-3.5" /> Ready to Order?
             </span>
             <h3 className="font-serif-luxury text-2xl font-bold">
-              Got your links ready?
+              Got your product links ready?
             </h3>
             <p className="text-xs sm:text-sm text-slate-300 max-w-lg">
               Paste your links into our multi-link order form, calculate your total in MVR, and dispatch directly to WhatsApp!
@@ -220,7 +212,7 @@ export default function StoresPage() {
 
           <Link
             href="/order"
-            className="flex-shrink-0 bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-lg transition"
+            className="flex-shrink-0 bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-lg transition hover:scale-105 active:scale-95"
           >
             Go to Order Form
           </Link>
