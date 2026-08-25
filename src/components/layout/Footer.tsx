@@ -40,7 +40,7 @@ export default function Footer() {
             </Link>
 
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
-              Your trusted proxy shopping service in the Maldives. Shop from SHEIN, TEMU, and iHerb with doorstep delivery in Malé and cargo boat drops to all atolls.
+              Your trusted proxy shopping service in the Maldives. Shop from SHEIN, TEMU, iHerb, AliExpress, ASOS & YesStyle with doorstep delivery in Malé and cargo boat drops to all atolls.
             </p>
 
             <div className="pt-1 flex flex-col gap-2 text-xs text-slate-400">
@@ -90,7 +90,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/order" className="text-pink-300 hover:text-white font-semibold transition flex items-center gap-1">
-                  <span>Order</span>
+                  <span>Order Online</span>
                   <span className="text-[9px] bg-pink-900/60 text-pink-300 px-1.5 py-0.5 rounded font-bold">New</span>
                 </Link>
               </li>
@@ -197,10 +197,10 @@ export default function Footer() {
                   <span className="text-[10px] font-bold uppercase tracking-wide text-rose-400">
                     Bank of Maldives (BML)
                   </span>
-                  <span className="text-[10px] text-slate-500 font-mono">MVR</span>
+                  <span className="text-[10px] text-slate-400 font-bold">MVR</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-white text-xs sm:text-sm font-bold tracking-wider">
+                  <span className="text-white text-xs sm:text-sm font-bold tracking-wider">
                     {SITE_CONFIG.bmlAccount}
                   </span>
                   <button
@@ -224,10 +224,10 @@ export default function Footer() {
                   <span className="text-[10px] font-bold uppercase tracking-wide text-emerald-400">
                     Maldives Islamic Bank (MIB)
                   </span>
-                  <span className="text-[10px] text-slate-500 font-mono">MVR</span>
+                  <span className="text-[10px] text-slate-400 font-bold">MVR</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-white text-xs sm:text-sm font-bold tracking-wider">
+                  <span className="text-white text-xs sm:text-sm font-bold tracking-wider">
                     {SITE_CONFIG.mibAccount}
                   </span>
                   <button

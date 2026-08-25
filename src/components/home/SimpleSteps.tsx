@@ -58,7 +58,7 @@ export default function SimpleSteps() {
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="font-mono font-extrabold text-2xl text-pink-300">
+                    <span className="font-bold text-2xl text-pink-300">
                       {s.num}
                     </span>
                     <div className={`w-12 h-12 rounded-2xl ${s.color} flex items-center justify-center`}>

@@ -32,7 +32,7 @@ export default function Navbar() {
               <span className="font-serif-luxury text-lg sm:text-xl font-bold tracking-tight text-slate-900">
                 GirlClub
               </span>
-              <span className="text-[9px] uppercase font-mono tracking-widest text-slate-400 font-semibold">
+              <span className="text-[10px] uppercase font-bold tracking-wide text-slate-400">
                 MV
               </span>
             </div>

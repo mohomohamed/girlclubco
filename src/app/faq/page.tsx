@@ -6,48 +6,52 @@ import { SITE_CONFIG } from '@/lib/config';
 
 export const metadata: Metadata = {
   title: 'Frequently Asked Questions — GirlClub Maldives',
-  description: 'Common questions about ordering from SHEIN, TEMU, and iHerb in Maldives with BML / MIB payment.',
+  description: 'Common questions about assisted shopping from SHEIN, TEMU, iHerb, AliExpress, ASOS, and YesStyle with MVR BML/MIB payment.',
 };
 
 export default function FAQPage() {
-  const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent('Hi GirlClub! I have a question.')}`;
+  const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent('Hi GirlClub! I have a question regarding assisted ordering.')}`;
 
   const faqs = [
     {
-      q: 'How does the assisted ordering process work?',
-      a: 'Browse SHEIN, TEMU, or iHerb on your phone or computer. Copy the product links or cart link, specify your sizes and quantities, and send them to us on WhatsApp (+960 7614170). Our team will manually evaluate your cart for item availability, price accuracy, and stock before sending you a final order confirmation with BML/MIB transfer details.',
+      q: 'How does the assisted pre-ordering process work?',
+      a: 'Browse SHEIN, TEMU, iHerb, AliExpress, ASOS, or YesStyle on your phone or computer. Copy the product links, specify your sizes/quantities, and submit them in our Order form or send them directly to WhatsApp (+960 7614170). Our team manually verifies item availability, stock status, and exact prices before sending your official BML/MIB transfer confirmation.',
     },
     {
-      q: 'How do I pay? Is it bank transfer only?',
-      a: 'Yes, payment is strictly through local bank transfer (Bank of Maldives BML or Maldives Islamic Bank MIB). No international card or USD account is needed. Full payment in MVR is required before orders are confirmed and placed.',
+      q: 'How do I pay? Is it local bank transfer only?',
+      a: `Yes, payment is strictly via local bank transfer in MVR to our Bank of Maldives (BML: ${SITE_CONFIG.bmlAccount}) or Maldives Islamic Bank (MIB: ${SITE_CONFIG.mibAccount}) account. No international credit card or USD foreign currency is needed!`,
     },
     {
-      q: 'Can I combine items from SHEIN, TEMU, and iHerb in one order?',
-      a: 'Yes! Our Multi-Link Order Builder allows you to combine items from all three stores into one order inquiry. They will be ordered according to each store’s weekly batch schedule and delivered to you.',
+      q: 'Can I combine items from different stores in one order?',
+      a: 'Yes! You can combine clothing from SHEIN or ASOS, gadgets from TEMU or AliExpress, and skincare from iHerb or YesStyle into one consolidated order inquiry. They will be placed according to each store’s weekly batch schedule and delivered to you.',
     },
     {
-      q: 'How long does delivery take to the Maldives?',
-      a: 'Delivery to Malé typically takes 10 to 18 business days from the batch order date. We take care of international air shipping and Maldives customs clearance.',
+      q: 'What is the exchange rate and commission?',
+      a: `All USD prices are converted at the fixed exchange rate of USD 1 = MVR ${SITE_CONFIG.fixedExchangeRate.toFixed(2)}. We charge a ${SITE_CONFIG.commissionPercentage}% service commission (minimum MVR ${SITE_CONFIG.minimumCommissionMvr}) to cover international order processing, currency arrangement, and customs logistics.`,
     },
     {
-      q: 'Do you deliver to Hulhumalé and island boats?',
-      a: 'Yes! We provide doorstep delivery in Malé (+MVR 35) and Hulhumalé (+MVR 45), free self-collection at our hub, and direct handover to island cargo boats in Malé harbor (+MVR 75).',
+      q: 'How long does delivery take to arrive in the Maldives?',
+      a: 'Standard delivery to Malé typically takes 10 to 18 business days from the scheduled batch order date. We take care of international freight and Maldives customs clearance.',
+    },
+    {
+      q: 'Where do you deliver in the Maldives?',
+      a: 'We provide free self-collection in Malé, doorstep delivery across Malé (+MVR 35) and Hulhumalé (+MVR 45), and direct handover to island cargo boats and couriers at Malé harbor (+MVR 75) for all 20 atolls.',
     },
     {
       q: 'What happens if an item goes out of stock?',
-      a: 'If an item goes out of stock during manual cart evaluation or before checkout, we will notify you immediately on WhatsApp. You can choose a replacement item or receive an immediate 100% refund to your BML or MIB account.',
+      a: 'If any item goes out of stock before checkout, we notify you immediately on WhatsApp. You can choose a replacement link or receive an immediate 100% refund in MVR back to your original bank account.',
     },
     {
       q: 'Are there any prohibited items you cannot order?',
-      a: 'In compliance with Maldives Customs Service regulations and airline air-freight safety, we cannot order pork products, alcoholic beverages, items contrary to Islamic tenets, weapons/replicas, or pressurized aerosol flammables.',
+      a: 'In compliance with Maldives Customs Service regulations and airline air-freight safety laws, we cannot order pork products, alcoholic beverages, items contrary to Islamic tenets, weapons/replicas, or pressurized aerosol flammables.',
     },
   ];
 
   return (
-    <div className="py-8 sm:py-12 space-y-12">
+    <div className="py-8 sm:py-14 space-y-12">
       {/* Header */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 text-pink-800 text-xs font-semibold">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-50 text-pink-800 text-xs font-semibold border border-pink-200/60">
           <HelpCircle className="w-3.5 h-3.5 text-pink-600" />
           <span>Help & Support</span>
         </div>
@@ -59,7 +63,7 @@ export default function FAQPage() {
         </p>
       </div>
 
-      {/* FAQ Accordion List */}
+      {/* FAQ List */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
         {faqs.map((faq, idx) => (
           <div
@@ -79,13 +83,13 @@ export default function FAQPage() {
 
       {/* WhatsApp Help CTA Card */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-pink-50 via-purple-50 to-pink-50 rounded-3xl p-6 sm:p-8 border border-pink-200/70 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+        <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-8 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left shadow-lg">
           <div className="space-y-1">
-            <h3 className="font-serif-luxury text-xl font-bold text-slate-900">
+            <h3 className="font-serif-luxury text-xl font-bold text-white">
               Still have questions?
             </h3>
-            <p className="text-xs sm:text-sm text-slate-600">
-              Chat directly with our customer support team on WhatsApp anytime.
+            <p className="text-xs sm:text-sm text-slate-300">
+              Chat directly with our customer support team on WhatsApp (+960 7614170) anytime.
             </p>
           </div>
 
@@ -93,7 +97,7 @@ export default function FAQPage() {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-full shadow-md transition flex items-center gap-2"
+            className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-full shadow-md transition flex items-center gap-2 flex-shrink-0"
           >
             <MessageCircle className="w-4 h-4 fill-white" />
             <span>Chat on WhatsApp</span>

@@ -467,19 +467,19 @@ export default function QuickCalculator() {
               <div className="space-y-2 text-xs sm:text-sm text-slate-300 border-b border-slate-700/80 pb-4">
                 <div className="flex justify-between">
                   <span className="text-slate-400">Cart Total (USD):</span>
-                  <span className="font-bold text-white font-mono">${cost.cartUsd.toFixed(2)} USD</span>
+                  <span className="font-bold text-white tabular-nums">${cost.cartUsd.toFixed(2)} USD</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Products in MVR:</span>
-                  <span className="font-mono text-pink-300">MVR {cost.baseMvr.toFixed(2)}</span>
+                  <span className="font-semibold text-pink-300 tabular-nums">MVR {cost.baseMvr.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Service Fee ({cost.commissionPercent}%):</span>
-                  <span className="font-semibold text-white">MVR {cost.commissionMvr.toFixed(2)}</span>
+                  <span className="font-semibold text-white tabular-nums">MVR {cost.commissionMvr.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-400">Delivery:</span>
-                  <span className="font-semibold text-white">
+                  <span className="font-semibold text-white tabular-nums">
                     {cost.deliveryMvr === 0 ? 'FREE' : `MVR ${cost.deliveryMvr.toFixed(2)}`}
                   </span>
                 </div>
@@ -487,7 +487,7 @@ export default function QuickCalculator() {
             ) : (
               <div className="text-xs text-slate-300 border-b border-slate-700/80 pb-3">
                 <p className="text-pink-300 font-semibold">
-                  ✨ Paste your product links above to calculate your total in USD & MVR!
+                  Paste your product links above to calculate your total in USD & MVR!
                 </p>
               </div>
             )}
@@ -500,7 +500,7 @@ export default function QuickCalculator() {
                     Estimated Total
                   </span>
                   {cost.cartUsd > 0 && (
-                    <span className="text-xs font-mono font-bold text-slate-300 bg-white/10 px-2 py-0.5 rounded-md">
+                    <span className="text-xs font-bold text-slate-300 bg-white/10 px-2 py-0.5 rounded-md tabular-nums">
                       Cart: ${cost.cartUsd.toFixed(2)} USD
                     </span>
                   )}

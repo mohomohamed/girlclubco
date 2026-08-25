@@ -64,11 +64,11 @@ export default function OrderPage() {
 
                   return (
                     <tr key={usd} className="hover:bg-pink-50/30 transition">
-                      <td className="p-3 font-bold text-slate-900">${usd}.00 USD</td>
-                      <td className="p-3 font-mono">MVR {base.toFixed(2)}</td>
-                      <td className="p-3 font-mono text-slate-600">MVR {comm.toFixed(2)}</td>
-                      <td className="p-3 text-slate-600">MVR {delivery.toFixed(2)}</td>
-                      <td className="p-3 text-right font-serif-luxury font-bold text-pink-700 text-sm">
+                      <td className="p-3 font-bold text-slate-900 tabular-nums">${usd}.00 USD</td>
+                      <td className="p-3 tabular-nums text-slate-800">MVR {base.toFixed(2)}</td>
+                      <td className="p-3 tabular-nums text-slate-600">MVR {comm.toFixed(2)}</td>
+                      <td className="p-3 tabular-nums text-slate-600">MVR {delivery.toFixed(2)}</td>
+                      <td className="p-3 text-right font-serif-luxury font-bold text-pink-700 text-sm tabular-nums">
                         MVR {total.toFixed(2)}
                       </td>
                     </tr>
