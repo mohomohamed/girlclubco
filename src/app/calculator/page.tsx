@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import QuickCalculator from '@/components/calculator/QuickCalculator';
+import PricingEstimator from '@/components/calculator/PricingEstimator';
 import { Calculator, ArrowRight, CheckCircle2, ShieldCheck, Tag } from 'lucide-react';
 import { SITE_CONFIG } from '@/lib/config';
 
@@ -19,20 +19,22 @@ export default function CalculatorPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 text-pink-800 text-xs font-semibold">
           <Calculator className="w-3.5 h-3.5 text-pink-600" />
-          <span>Estimated MVR Quotation</span>
+          <span>Quick Price Estimator</span>
         </div>
         <h1 className="font-serif-luxury text-3xl sm:text-4xl font-bold text-slate-900">
           MVR Quotation Calculator
         </h1>
         <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
-          Explore estimated costs for your cart items. Transparently calculated with local delivery and standard service fees.
+          Explore estimated costs for your cart budget. Transparently calculated with local delivery and fixed exchange rate.
         </p>
       </div>
 
-      {/* Interactive Calculator */}
-      <QuickCalculator />
+      {/* Interactive Quotation Estimator */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <PricingEstimator />
+      </div>
 
-      {/* Pricing Cheat Sheet Table */}
+      {/* Pricing Reference Table */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-soft space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
