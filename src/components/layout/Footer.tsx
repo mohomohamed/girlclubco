@@ -90,13 +90,13 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/order" className="text-pink-300 hover:text-white font-semibold transition flex items-center gap-1">
-                  <span>Order Builder</span>
+                  <span>Order</span>
                   <span className="text-[9px] bg-pink-900/60 text-pink-300 px-1.5 py-0.5 rounded font-bold">New</span>
                 </Link>
               </li>
               <li>
-                <Link href="/calculator" className="hover:text-pink-400 transition">
-                  MVR Calculator
+                <Link href="/order#order-form" className="hover:text-pink-400 transition">
+                  MVR Price Guide
                 </Link>
               </li>
               <li>

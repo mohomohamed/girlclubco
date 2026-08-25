@@ -48,7 +48,7 @@ export default function HeroSection() {
             href="/order"
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-semibold text-sm px-6 py-4 rounded-full border border-slate-200 shadow-sm transition"
           >
-            <span>Open Order Builder</span>
+            <span>Order Online</span>
             <ArrowRight className="w-4 h-4 text-pink-600" />
           </Link>
         </div>

@@ -12,10 +12,9 @@ export default function Navbar() {
 
   const whatsappUrl = `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent('Hi GirlClub! I want to order from SHEIN / TEMU / iHerb.')}`;
 
-  // Streamlined, un-congested navigation links
+  // Streamlined 4-item navigation
   const navLinks = [
-    { name: 'Order Builder', href: '/order', highlight: true },
-    { name: 'Calculator', href: '/calculator' },
+    { name: 'Order', href: '/order', highlight: true },
     { name: 'Stores', href: '/stores' },
     { name: 'How It Works', href: '/how-it-works' },
     { name: 'FAQ', href: '/faq' },
@@ -40,7 +39,7 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation - Clean, airy spacing */}
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
