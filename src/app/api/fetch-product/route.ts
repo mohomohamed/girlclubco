@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
         }
       }
 
-      // Filter out Cloudflare bot-check, download interstitial, and generic site tagline titles
+      // Filter out Cloudflare bot-checks, interstitials, and generic site tagline titles
       const lower = (title || '').toLowerCase();
       if (
         lower.includes('just a moment') ||
@@ -96,7 +96,10 @@ export async function GET(request: NextRequest) {
         lower.includes('temu | make your life easier') ||
         lower === 'temu' ||
         lower === 'shein' ||
-        lower === 'iherb'
+        lower === 'iherb' ||
+        lower === 'aliexpress' ||
+        lower === 'asos' ||
+        lower === 'yesstyle'
       ) {
         title = '';
       }
@@ -182,9 +185,9 @@ export async function GET(request: NextRequest) {
         }
       }
 
-      // TEMU / SHEIN JS state variable extraction
+      // Store-specific JS state variables
       if (!title || !priceUsd) {
-        const goodsNameMatch = html.match(/["'](?:goodsName|goods_name|productTitle|product_name)["']\s*:\s*["']([^"']{4,})["']/i);
+        const goodsNameMatch = html.match(/["'](?:goodsName|goods_name|productTitle|product_name|subject)["']\s*:\s*["']([^"']{4,})["']/i);
         if (!title && goodsNameMatch && goodsNameMatch[1]) {
           const candidate = cleanTitle(decodeHtmlEntities(goodsNameMatch[1]));
           if (candidate && !candidate.toLowerCase().includes('download')) {
@@ -193,7 +196,7 @@ export async function GET(request: NextRequest) {
         }
 
         const rawPriceMatch =
-          html.match(/["'](?:usdAmount|retailPrice|salePrice|sale_price|price)["']\s*:\s*["']?\$?([\d.]+)["']?/i) ||
+          html.match(/["'](?:usdAmount|retailPrice|salePrice|sale_price|price|actPrice)["']\s*:\s*["']?\$?([\d.]+)["']?/i) ||
           html.match(/data-price=["']\$?([\d.]+)["']/i);
         if (rawPriceMatch && rawPriceMatch[1]) {
           const p = parseFloat(rawPriceMatch[1]);
@@ -202,12 +205,12 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // 2. High-Precision URL & Query Parameter Fallbacks (Essential for TEMU & SHEIN)
+    // 2. High-Precision URL & Query Parameter Fallbacks
     if (!title) {
       title =
         extractTitleFromUrl(finalUrl, platform) ||
         extractTitleFromUrl(cleanTarget, platform) ||
-        (platform === 'temu' ? 'TEMU Product' : platform === 'shein' ? 'SHEIN Product' : '');
+        getStoreDefaultTitle(platform);
     }
 
     const detectedPlatform = platform !== 'other' ? platform : detectStoreFromUrl(finalUrl) || detectStoreFromUrl(cleanTarget);
@@ -242,23 +245,44 @@ function cleanTitle(str: string): string {
     .replace(/\|\s*SHEIN.*$/i, '')
     .replace(/\|\s*TEMU.*$/i, '')
     .replace(/\|\s*iHerb.*$/i, '')
+    .replace(/\|\s*AliExpress.*$/i, '')
+    .replace(/\|\s*ASOS.*$/i, '')
+    .replace(/\|\s*YesStyle.*$/i, '')
     .replace(/-\s*SHEIN.*$/i, '')
     .replace(/-\s*TEMU.*$/i, '')
     .replace(/-\s*iHerb.*$/i, '')
+    .replace(/-\s*AliExpress.*$/i, '')
+    .replace(/-\s*ASOS.*$/i, '')
+    .replace(/-\s*YesStyle.*$/i, '')
     .replace(/^SHEIN\s*[-|:]\s*/i, '')
     .replace(/^TEMU\s*[-|:]\s*/i, '')
     .replace(/^iHerb\s*[-|:]\s*/i, '')
+    .replace(/^AliExpress\s*[-|:]\s*/i, '')
+    .replace(/^ASOS\s*[-|:]\s*/i, '')
+    .replace(/^YesStyle\s*[-|:]\s*/i, '')
     .trim();
 }
 
+function getStoreDefaultTitle(store: ItemStorePlatform): string {
+  switch (store) {
+    case 'shein': return 'SHEIN Fashion Item';
+    case 'temu': return 'TEMU Product Item';
+    case 'iherb': return 'iHerb Wellness Item';
+    case 'aliexpress': return 'AliExpress Item';
+    case 'asos': return 'ASOS Fashion Item';
+    case 'yesstyle': return 'YesStyle Beauty Item';
+    default: return '';
+  }
+}
+
 /**
- * Robust URL and Query String parser for TEMU, SHEIN & iHerb
+ * Robust URL and Query String parser for supported stores
  */
 function extractTitleFromUrl(urlStr: string, store: ItemStorePlatform): string {
   try {
     const url = new URL(urlStr);
 
-    // 1. Check Query Parameters (e.g. goods_name, search_key, title, name, keyword)
+    // 1. Check Query Parameters (goods_name, search_key, title, name, keyword)
     const qCandidate =
       url.searchParams.get('goods_name') ||
       url.searchParams.get('goods_title') ||
@@ -285,15 +309,20 @@ function extractTitleFromUrl(urlStr: string, store: ItemStorePlatform): string {
       part = part.replace(/-p-\d+.*$/i, ''); // SHEIN ID suffix
       part = part.replace(/-g-\d+.*$/i, ''); // TEMU ID suffix
       part = part.replace(/^goods-/i, '');
+      part = part.replace(/^item-/i, '');
 
       // Skip common non-descriptive path segments
       if (
         part === 'goods' ||
         part === 'product' ||
+        part === 'prd' ||
+        part === 'item' ||
+        part === 'p' ||
         part === 'pr' ||
         part === 'm' ||
         part === 'k' ||
         part === 't' ||
+        part === 'en' ||
         part === 'maldives' ||
         part === 'us' ||
         part === 'cart' ||
@@ -313,30 +342,35 @@ function extractTitleFromUrl(urlStr: string, store: ItemStorePlatform): string {
       }
     }
 
-    // 3. Check goods_id or shortlink code fallback for TEMU
+    // 3. Fallbacks by Store ID
+    if (store === 'aliexpress' || url.hostname.includes('aliexpress')) {
+      const aliId = url.pathname.match(/(\d{10,})/)?.[1] || url.pathname.split('/').pop()?.replace(/\.html/i, '');
+      if (aliId && aliId.length > 4) {
+        return `AliExpress Item #${aliId}`;
+      }
+    }
+
+    if (store === 'asos' || url.hostname.includes('asos')) {
+      const asosId = url.pathname.match(/\/prd\/(\d+)/)?.[1];
+      if (asosId) {
+        return `ASOS Item #${asosId}`;
+      }
+    }
+
     if (store === 'temu' || url.hostname.includes('temu') || url.hostname.includes('temu.to')) {
       const goodsId = url.searchParams.get('goods_id') || url.pathname.match(/(\d{8,})/)?.[1];
       if (goodsId) {
         return `TEMU Product #${goodsId}`;
       }
-
-      // Check shortlink code like temu.to/m/u123456
-      if (url.pathname.includes('/m/') || url.pathname.includes('/k/') || url.pathname.includes('/t/')) {
+      if (url.pathname.includes('/m/') || url.pathname.includes('/k/')) {
         const code = url.pathname.split('/').filter(Boolean).pop();
-        if (code) {
-          return `TEMU App Item (${code})`;
-        }
+        if (code) return `TEMU App Item (${code})`;
       }
-      return 'TEMU Product Item';
     }
 
-    // 4. Check SHEIN product ID fallback
-    if (store === 'shein' || url.hostname.includes('shein') || url.hostname.includes('shein.top')) {
+    if (store === 'shein' || url.hostname.includes('shein')) {
       const sheinId = url.pathname.match(/-p-(\d+)/)?.[1] || url.searchParams.get('goods_id');
-      if (sheinId) {
-        return `SHEIN Fashion Item #${sheinId}`;
-      }
-      return 'SHEIN Fashion Item';
+      if (sheinId) return `SHEIN Item #${sheinId}`;
     }
   } catch {
     // Ignore URL parse error

@@ -2,9 +2,9 @@ import { StorePlatform, ItemStorePlatform, StoreInfo, DeliveryZone, OrderItemRow
 
 export const SITE_CONFIG = {
   name: "GirlClub Maldives",
-  tagline: "SHEIN • TEMU • iHerb Assisted Shopping in Maldives",
-  description: "Shop online from international stores with assisted pre-order service. Pay in MVR via BML or MIB (Bank transfer only).",
-  whatsappNumber: "9607614170", // Target WhatsApp Number
+  tagline: "SHEIN • TEMU • iHerb • AliExpress • ASOS • YesStyle Assisted Shopping",
+  description: "Shop online from popular international stores with assisted shopping in the Maldives. Pay in MVR via BML or MIB (Transfer only).",
+  whatsappNumber: "9607614170",
   viberNumber: "9607614170",
   instagramHandle: "girlclub.mv",
   bmlAccount: "7730000123456 (MVR)",
@@ -26,6 +26,15 @@ export const SITE_CONFIG = {
 };
 
 export const STORES: Record<StorePlatform, StoreInfo> = {
+  mixed: {
+    id: 'mixed',
+    name: 'All Stores',
+    badge: 'Mixed Order',
+    rate: SITE_CONFIG.fixedExchangeRate,
+    orderSchedule: 'Consolidated across scheduled batch days',
+    description: 'Combine items from SHEIN, TEMU, iHerb, AliExpress, ASOS & YesStyle in one order.',
+    themeColor: '#8B5CF6',
+  },
   shein: {
     id: 'shein',
     name: 'SHEIN',
@@ -53,19 +62,37 @@ export const STORES: Record<StorePlatform, StoreInfo> = {
     description: 'Korean skincare, vitamins, beauty, organic wellness & supplements.',
     themeColor: '#16A34A',
   },
-  mixed: {
-    id: 'mixed',
-    name: 'Mixed Stores',
-    badge: 'SHEIN + TEMU + iHerb',
+  aliexpress: {
+    id: 'aliexpress',
+    name: 'AliExpress',
+    badge: 'Tech & Accessories',
     rate: SITE_CONFIG.fixedExchangeRate,
-    orderSchedule: 'Consolidated across scheduled batch days',
-    description: 'Combine items from multiple stores in a single order.',
-    themeColor: '#8B5CF6',
-  }
+    orderSchedule: 'Orders placed 2x weekly (Tuesdays & Thursdays)',
+    description: 'Phone cases, watch straps, jewelry, DIY crafting supplies & gadgets.',
+    themeColor: '#E11D48',
+  },
+  asos: {
+    id: 'asos',
+    name: 'ASOS',
+    badge: 'Premium Fashion',
+    rate: SITE_CONFIG.fixedExchangeRate,
+    orderSchedule: 'Orders placed weekly (Fridays)',
+    description: 'Wedding guest dresses, Eid outfits, modest fashion & branded sneakers.',
+    themeColor: '#334155',
+  },
+  yesstyle: {
+    id: 'yesstyle',
+    name: 'YesStyle',
+    badge: 'K-Beauty & Outfits',
+    rate: SITE_CONFIG.fixedExchangeRate,
+    orderSchedule: 'Orders placed weekly (Wednesdays)',
+    description: 'Viral Korean skincare, COSRX, sunscreens & Asian aesthetic fashion.',
+    themeColor: '#EC4899',
+  },
 };
 
 /**
- * Extracts clean URL from pasted text (handles mobile share blurbs like "Look what I found https://shein.top/xyz" or "Temu coupon https://temu.to/m/abc")
+ * Extracts clean URL from pasted text (handles mobile share blurbs like "Look what I found https://..." or "Check this out https://...")
  */
 export function extractUrlFromText(text: string): string {
   if (!text) return '';
@@ -76,6 +103,7 @@ export function extractUrlFromText(text: string): string {
 
 export function detectStoreFromUrl(url: string): ItemStorePlatform {
   const clean = (url || '').toLowerCase();
+  
   if (
     clean.includes('shein.top') ||
     clean.includes('shein.com') ||
@@ -85,6 +113,7 @@ export function detectStoreFromUrl(url: string): ItemStorePlatform {
   ) {
     return 'shein';
   }
+
   if (
     clean.includes('temu.to') ||
     clean.includes('temu.com') ||
@@ -95,6 +124,7 @@ export function detectStoreFromUrl(url: string): ItemStorePlatform {
   ) {
     return 'temu';
   }
+
   if (
     clean.includes('iherb.co') ||
     clean.includes('iherb.com') ||
@@ -103,6 +133,33 @@ export function detectStoreFromUrl(url: string): ItemStorePlatform {
   ) {
     return 'iherb';
   }
+
+  if (
+    clean.includes('aliexpress.com') ||
+    clean.includes('aliexpress.us') ||
+    clean.includes('a.aliexpress.com') ||
+    clean.includes('s.click.aliexpress.com') ||
+    clean.includes('aliexpress.')
+  ) {
+    return 'aliexpress';
+  }
+
+  if (
+    clean.includes('asos.com') ||
+    clean.includes('asos.top') ||
+    clean.includes('asos.')
+  ) {
+    return 'asos';
+  }
+
+  if (
+    clean.includes('yesstyle.com') ||
+    clean.includes('ys.style') ||
+    clean.includes('yesstyle.')
+  ) {
+    return 'yesstyle';
+  }
+
   return 'other';
 }
 
@@ -153,9 +210,9 @@ export function createWhatsAppOrderLink(params: {
 
   const zoneNames: Record<DeliveryZone, string> = {
     collection: 'Self-Collection (FREE)',
-    male: 'Malé Doorstep Delivery (+MVR 35)',
-    hulhumale: 'Hulhumalé Delivery (+MVR 45)',
-    island: 'Island Boat / Courier (+MVR 75)',
+    male: 'Malé Doorstep (+MVR 35)',
+    hulhumale: 'Hulhumalé (+MVR 45)',
+    island: 'Island Boat (+MVR 75)',
   };
 
   let text = `🌸 *GIRLCLUB ORDER INQUIRY* 🌸\n`;

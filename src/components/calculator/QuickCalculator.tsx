@@ -66,7 +66,7 @@ export default function QuickCalculator() {
     }
   };
 
-  // Auto-Fetch link attributes (enhanced for TEMU, SHEIN & iHerb)
+  // Auto-Fetch link attributes (enhanced for all 6 stores)
   const fetchLinkAttributes = async (id: string, rawText: string) => {
     const cleanUrl = extractUrlFromText(rawText);
     if (!cleanUrl || !cleanUrl.startsWith('http')) return;
@@ -169,8 +169,23 @@ export default function QuickCalculator() {
     { id: 'mixed', label: 'All Stores', badge: 'Mixed Order' },
     { id: 'shein', label: 'SHEIN', badge: 'Fashion' },
     { id: 'temu', label: 'TEMU', badge: 'Home & Gadgets' },
-    { id: 'iherb', label: 'iHerb', badge: 'Skincare & Health' },
+    { id: 'iherb', label: 'iHerb', badge: 'Skincare' },
+    { id: 'aliexpress', label: 'AliExpress', badge: 'Tech & Crafts' },
+    { id: 'asos', label: 'ASOS', badge: 'Outfits & Shoes' },
+    { id: 'yesstyle', label: 'YesStyle', badge: 'K-Beauty' },
   ];
+
+  const getStoreBadgeColor = (p: ItemStorePlatform) => {
+    switch (p) {
+      case 'shein': return 'bg-slate-900 text-white';
+      case 'temu': return 'bg-orange-600 text-white';
+      case 'iherb': return 'bg-emerald-700 text-white';
+      case 'aliexpress': return 'bg-rose-600 text-white';
+      case 'asos': return 'bg-slate-700 text-white';
+      case 'yesstyle': return 'bg-pink-600 text-white';
+      default: return 'bg-purple-700 text-white';
+    }
+  };
 
   return (
     <section id="order-form" className="py-6 sm:py-10 bg-white relative">
@@ -178,12 +193,12 @@ export default function QuickCalculator() {
         {/* Form Container */}
         <div className="bg-slate-50/80 rounded-3xl p-5 sm:p-8 border border-pink-100 shadow-soft space-y-6">
           
-          {/* 1. Store Filter */}
+          {/* 1. Store Selection */}
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
               1. Select Store
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
               {storeOptions.map((opt) => {
                 const isSelected = platform === opt.id;
                 return (
@@ -191,17 +206,17 @@ export default function QuickCalculator() {
                     key={opt.id}
                     type="button"
                     onClick={() => setPlatform(opt.id)}
-                    className={`p-3 rounded-2xl border text-left transition-all ${
+                    className={`p-2.5 rounded-2xl border text-left transition-all ${
                       isSelected
                         ? 'border-pink-600 bg-white shadow-sm ring-2 ring-pink-500/20'
                         : 'border-slate-200 bg-white/60 hover:bg-white text-slate-700'
                     }`}
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-extrabold text-xs sm:text-sm text-slate-900">{opt.label}</span>
+                      <span className="font-extrabold text-xs text-slate-900">{opt.label}</span>
                       {isSelected && <span className="text-pink-600 text-xs font-bold">✓</span>}
                     </div>
-                    <span className="text-[10px] sm:text-[11px] font-semibold text-slate-500 block mt-1">
+                    <span className="text-[9px] font-semibold text-slate-500 block mt-0.5 truncate">
                       {opt.badge}
                     </span>
                   </button>
@@ -234,26 +249,22 @@ export default function QuickCalculator() {
                   className="p-3.5 sm:p-4 rounded-2xl bg-white border border-slate-200/90 shadow-sm space-y-3 relative group"
                 >
                   {/* Header Row: Item Number, Store Badges, Remove */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-xs font-bold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded-md">
                         Item #{index + 1}
                       </span>
 
                       {/* Store Switcher */}
-                      <div className="flex items-center gap-1">
-                        {(['shein', 'temu', 'iherb'] as ItemStorePlatform[]).map((st) => (
+                      <div className="flex items-center gap-1 flex-wrap">
+                        {(['shein', 'temu', 'iherb', 'aliexpress', 'asos', 'yesstyle'] as ItemStorePlatform[]).map((st) => (
                           <button
                             key={st}
                             type="button"
                             onClick={() => handleUpdateItem(item.id, 'platform', st)}
-                            className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase transition ${
+                            className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-md uppercase transition ${
                               item.platform === st
-                                ? st === 'shein'
-                                  ? 'bg-slate-900 text-white'
-                                  : st === 'temu'
-                                  ? 'bg-orange-600 text-white'
-                                  : 'bg-emerald-700 text-white'
+                                ? getStoreBadgeColor(st)
                                 : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
                             }`}
                           >
@@ -267,7 +278,7 @@ export default function QuickCalculator() {
                       <button
                         type="button"
                         onClick={() => handleRemoveItem(item.id)}
-                        className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                        className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition ml-auto"
                         title="Remove Item"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -281,7 +292,7 @@ export default function QuickCalculator() {
                       type="text"
                       value={item.url}
                       onChange={(e) => handleUrlChange(item.id, e.target.value)}
-                      placeholder="Paste link from SHEIN, TEMU, or iHerb..."
+                      placeholder="Paste link from SHEIN, TEMU, iHerb, AliExpress, ASOS, or YesStyle..."
                       className="w-full pl-3.5 pr-28 py-2.5 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-pink-500 focus:outline-none transition"
                     />
 
@@ -335,6 +346,12 @@ export default function QuickCalculator() {
                               ? 'bg-orange-100 text-orange-600'
                               : item.platform === 'iherb'
                               ? 'bg-emerald-100 text-emerald-600'
+                              : item.platform === 'aliexpress'
+                              ? 'bg-rose-100 text-rose-600'
+                              : item.platform === 'asos'
+                              ? 'bg-slate-200 text-slate-800'
+                              : item.platform === 'yesstyle'
+                              ? 'bg-pink-100 text-pink-600'
                               : 'bg-pink-100 text-pink-600'
                           }`}
                         >
@@ -349,6 +366,12 @@ export default function QuickCalculator() {
                                 ? 'bg-orange-200 text-orange-950'
                                 : item.platform === 'iherb'
                                 ? 'bg-emerald-200 text-emerald-950'
+                                : item.platform === 'aliexpress'
+                                ? 'bg-rose-200 text-rose-950'
+                                : item.platform === 'asos'
+                                ? 'bg-slate-300 text-slate-950'
+                                : item.platform === 'yesstyle'
+                                ? 'bg-pink-200 text-pink-950'
                                 : 'bg-pink-200/80 text-pink-900'
                             }`}
                           >

@@ -127,38 +127,53 @@ export default function Footer() {
             <h4 className="text-white font-bold text-xs uppercase tracking-wider">
               Stores & Batch Days
             </h4>
-            <ul className="space-y-2 text-xs sm:text-sm">
+            <ul className="space-y-1.5 text-xs">
               <li>
-                <Link href="/stores#shein" className="group p-2 -ml-2 rounded-xl hover:bg-slate-900 transition block">
-                  <div className="flex items-center justify-between text-slate-300 group-hover:text-white">
-                    <span className="font-semibold">SHEIN Fashion</span>
-                    <span className="text-[10px] font-bold text-pink-400 bg-pink-950/60 border border-pink-900/50 px-2 py-0.5 rounded-full">
-                      Tue & Sun
-                    </span>
-                  </div>
-                  <span className="text-[11px] text-slate-500 block mt-0.5">Dresses, shoes, bags & beauty</span>
+                <Link href="/stores#shein" className="flex items-center justify-between text-slate-300 hover:text-white transition py-1">
+                  <span>SHEIN Fashion</span>
+                  <span className="text-[10px] font-bold text-pink-400 bg-pink-950/60 px-2 py-0.5 rounded-full">
+                    Tue & Sun
+                  </span>
                 </Link>
               </li>
               <li>
-                <Link href="/stores#temu" className="group p-2 -ml-2 rounded-xl hover:bg-slate-900 transition block">
-                  <div className="flex items-center justify-between text-slate-300 group-hover:text-white">
-                    <span className="font-semibold">TEMU Lifestyle</span>
-                    <span className="text-[10px] font-bold text-orange-400 bg-orange-950/60 border border-orange-900/50 px-2 py-0.5 rounded-full">
-                      Wed & Sun
-                    </span>
-                  </div>
-                  <span className="text-[11px] text-slate-500 block mt-0.5">Home, kitchen & gadgets</span>
+                <Link href="/stores#temu" className="flex items-center justify-between text-slate-300 hover:text-white transition py-1">
+                  <span>TEMU Home & Gadgets</span>
+                  <span className="text-[10px] font-bold text-orange-400 bg-orange-950/60 px-2 py-0.5 rounded-full">
+                    Wed & Sun
+                  </span>
                 </Link>
               </li>
               <li>
-                <Link href="/stores#iherb" className="group p-2 -ml-2 rounded-xl hover:bg-slate-900 transition block">
-                  <div className="flex items-center justify-between text-slate-300 group-hover:text-white">
-                    <span className="font-semibold">iHerb Wellness</span>
-                    <span className="text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-900/50 px-2 py-0.5 rounded-full">
-                      Fridays
-                    </span>
-                  </div>
-                  <span className="text-[11px] text-slate-500 block mt-0.5">Korean skincare & vitamins</span>
+                <Link href="/stores#iherb" className="flex items-center justify-between text-slate-300 hover:text-white transition py-1">
+                  <span>iHerb Skincare & Vitamins</span>
+                  <span className="text-[10px] font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-full">
+                    Fridays
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/stores#aliexpress" className="flex items-center justify-between text-slate-300 hover:text-white transition py-1">
+                  <span>AliExpress Tech & Crafts</span>
+                  <span className="text-[10px] font-bold text-rose-400 bg-rose-950/60 px-2 py-0.5 rounded-full">
+                    Tue & Thu
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/stores#asos" className="flex items-center justify-between text-slate-300 hover:text-white transition py-1">
+                  <span>ASOS Premium Outfits</span>
+                  <span className="text-[10px] font-bold text-slate-300 bg-slate-800 px-2 py-0.5 rounded-full">
+                    Fridays
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/stores#yesstyle" className="flex items-center justify-between text-slate-300 hover:text-white transition py-1">
+                  <span>YesStyle K-Beauty</span>
+                  <span className="text-[10px] font-bold text-pink-400 bg-pink-950/60 px-2 py-0.5 rounded-full">
+                    Wednesdays
+                  </span>
                 </Link>
               </li>
             </ul>
