@@ -22,7 +22,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid URL provided' }, { status: 400 });
     }
 
-    const platform: ItemStorePlatform = detectStoreFromUrl(cleanTarget);
+    // Detect initial platform from clean input URL
+    let platform: ItemStorePlatform = detectStoreFromUrl(cleanTarget);
 
     // Setup 4.5s timeout controller to stay well within free serverless limits
     const controller = new AbortController();
@@ -36,13 +37,10 @@ export async function GET(request: NextRequest) {
         signal: controller.signal,
         headers: {
           'User-Agent':
-            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1',
           'Accept':
             'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
           'Accept-Language': 'en-US,en;q=0.9',
-          'Sec-Ch-Ua': '"Chromium";v="123", "Google Chrome";v="123"',
-          'Sec-Ch-Ua-Mobile': '?0',
-          'Sec-Ch-Ua-Platform': '"macOS"',
         },
         redirect: 'follow',
       });
@@ -54,16 +52,22 @@ export async function GET(request: NextRequest) {
       clearTimeout(timeoutId);
     }
 
+    // Refresh platform detection with final redirected URL
+    if (platform === 'other') {
+      platform = detectStoreFromUrl(finalUrl);
+    }
+
     // Extract Metadata (Title, Image, Price, Store)
     let title = '';
     let imageUrl = '';
     let priceUsd: number | null = null;
 
+    // 1. Try extracting from raw HTML if returned
     if (html) {
-      // 1. Title Extraction from OpenGraph & Tags
+      // Title from OpenGraph or meta tags
       const ogTitleMatch =
-        html.match(/<meta\s+(?:property|name)=["'](?:og:title|twitter:title)["']\s+content=["'](.*?)["']/i) ||
-        html.match(/<meta\s+content=["'](.*?)["']\s+(?:property|name)=["'](?:og:title|twitter:title)["']/i);
+        html.match(/<meta\s+(?:property|name)=["'](?:og:title|twitter:title|product:name)["']\s+content=["'](.*?)["']/i) ||
+        html.match(/<meta\s+content=["'](.*?)["']\s+(?:property|name)=["'](?:og:title|twitter:title|product:name)["']/i);
 
       if (ogTitleMatch && ogTitleMatch[1]) {
         title = decodeHtmlEntities(ogTitleMatch[1].trim());
@@ -74,29 +78,36 @@ export async function GET(request: NextRequest) {
         }
       }
 
-      // Filter out Cloudflare bot-check and generic site tagline titles
-      const lower = title.toLowerCase();
+      // Filter out Cloudflare bot-check, download interstitial, and generic site tagline titles
+      const lower = (title || '').toLowerCase();
       if (
         lower.includes('just a moment') ||
         lower.includes('attention required') ||
         lower.includes('robot') ||
         lower.includes('security check') ||
         lower.includes('access denied') ||
+        lower.includes('download page') ||
+        lower.includes('download app') ||
+        lower.includes('open in app') ||
         lower.includes("women's & men's clothing") ||
         lower.includes('shop online fashion') ||
         lower.includes('online shopping for') ||
-        lower.includes('temu | explore')
+        lower.includes('temu | explore') ||
+        lower.includes('temu | make your life easier') ||
+        lower === 'temu' ||
+        lower === 'shein' ||
+        lower === 'iherb'
       ) {
         title = '';
       }
 
-      // Clean up store brand suffixes from title
+      // Clean store prefixes / suffixes
       title = cleanTitle(title);
 
-      // 2. Image Extraction (OpenGraph, Twitter, or Product Meta)
+      // Image from OpenGraph / Twitter / Image tags
       const ogImageMatch =
-        html.match(/<meta\s+(?:property|name)=["'](?:og:image|twitter:image|image)["']\s+content=["'](.*?)["']/i) ||
-        html.match(/<meta\s+content=["'](.*?)["']\s+(?:property|name)=["'](?:og:image|twitter:image|image)["']/i);
+        html.match(/<meta\s+(?:property|name)=["'](?:og:image|twitter:image|image|product:image)["']\s+content=["'](.*?)["']/i) ||
+        html.match(/<meta\s+content=["'](.*?)["']\s+(?:property|name)=["'](?:og:image|twitter:image|image|product:image)["']/i);
 
       if (ogImageMatch && ogImageMatch[1]) {
         let img = ogImageMatch[1].trim();
@@ -108,7 +119,7 @@ export async function GET(request: NextRequest) {
         }
       }
 
-      // 3. Price Extraction from OpenGraph & Product Meta
+      // Price extraction
       const ogPriceMatch =
         html.match(/<meta\s+(?:property|name)=["'](?:og:price:amount|product:price:amount|price)["']\s+content=["']([\d.]+)["']/i) ||
         html.match(/<meta\s+content=["']([\d.]+)["']\s+(?:property|name)=["'](?:og:price:amount|product:price:amount|price)["']/i);
@@ -120,7 +131,7 @@ export async function GET(request: NextRequest) {
         }
       }
 
-      // 4. JSON-LD Schema Extraction for Price / Title / Image
+      // JSON-LD Schema extraction
       if (!priceUsd || !title || !imageUrl) {
         try {
           const jsonLdRegex = /<script\s+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
@@ -132,16 +143,20 @@ export async function GET(request: NextRequest) {
 
               for (const item of items) {
                 if (item) {
-                  // Check @graph array if present
                   const targetObj = item['@graph'] ? item['@graph'][0] : item;
-                  
                   if (!title && targetObj.name && typeof targetObj.name === 'string') {
-                    title = cleanTitle(targetObj.name);
+                    const candidate = cleanTitle(targetObj.name);
+                    if (candidate && !candidate.toLowerCase().includes('download')) {
+                      title = candidate;
+                    }
                   }
                   if (!imageUrl && targetObj.image) {
-                    const imgCandidate = typeof targetObj.image === 'string' 
-                      ? targetObj.image 
-                      : (Array.isArray(targetObj.image) ? targetObj.image[0] : targetObj.image.url || '');
+                    const imgCandidate =
+                      typeof targetObj.image === 'string'
+                        ? targetObj.image
+                        : Array.isArray(targetObj.image)
+                        ? targetObj.image[0]
+                        : targetObj.image.url || '';
                     if (imgCandidate && typeof imgCandidate === 'string') {
                       imageUrl = imgCandidate.startsWith('//') ? 'https:' + imgCandidate : imgCandidate;
                     }
@@ -159,16 +174,24 @@ export async function GET(request: NextRequest) {
                 }
               }
             } catch {
-              // Skip malformed JSON
+              // Ignore malformed JSON
             }
           }
         } catch {
-          // Skip JSON-LD errors
+          // Ignore JSON-LD regex errors
         }
       }
 
-      // 5. Raw Script State Price Heuristics (for SHEIN & TEMU JS objects)
-      if (!priceUsd) {
+      // TEMU / SHEIN JS state variable extraction
+      if (!title || !priceUsd) {
+        const goodsNameMatch = html.match(/["'](?:goodsName|goods_name|productTitle|product_name)["']\s*:\s*["']([^"']{4,})["']/i);
+        if (!title && goodsNameMatch && goodsNameMatch[1]) {
+          const candidate = cleanTitle(decodeHtmlEntities(goodsNameMatch[1]));
+          if (candidate && !candidate.toLowerCase().includes('download')) {
+            title = candidate;
+          }
+        }
+
         const rawPriceMatch =
           html.match(/["'](?:usdAmount|retailPrice|salePrice|sale_price|price)["']\s*:\s*["']?\$?([\d.]+)["']?/i) ||
           html.match(/data-price=["']\$?([\d.]+)["']/i);
@@ -179,12 +202,15 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Fallback: If title was not extracted from HTML, parse slug from clean URL
+    // 2. High-Precision URL & Query Parameter Fallbacks (Essential for TEMU & SHEIN)
     if (!title) {
-      title = extractTitleFromUrlSlug(finalUrl) || extractTitleFromUrlSlug(cleanTarget);
+      title =
+        extractTitleFromUrl(finalUrl, platform) ||
+        extractTitleFromUrl(cleanTarget, platform) ||
+        (platform === 'temu' ? 'TEMU Product' : platform === 'shein' ? 'SHEIN Product' : '');
     }
 
-    const detectedPlatform = detectStoreFromUrl(finalUrl) || platform;
+    const detectedPlatform = platform !== 'other' ? platform : detectStoreFromUrl(finalUrl) || detectStoreFromUrl(cleanTarget);
 
     // Return structured metadata with 1-hour CDN caching
     return NextResponse.json(
@@ -225,25 +251,92 @@ function cleanTitle(str: string): string {
     .trim();
 }
 
-function extractTitleFromUrlSlug(urlStr: string): string {
+/**
+ * Robust URL and Query String parser for TEMU, SHEIN & iHerb
+ */
+function extractTitleFromUrl(urlStr: string, store: ItemStorePlatform): string {
   try {
     const url = new URL(urlStr);
+
+    // 1. Check Query Parameters (e.g. goods_name, search_key, title, name, keyword)
+    const qCandidate =
+      url.searchParams.get('goods_name') ||
+      url.searchParams.get('goods_title') ||
+      url.searchParams.get('title') ||
+      url.searchParams.get('name') ||
+      url.searchParams.get('search_key') ||
+      url.searchParams.get('keyword') ||
+      url.searchParams.get('q');
+
+    if (qCandidate) {
+      const decoded = decodeURIComponent(qCandidate)
+        .replace(/[-_+]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .replace(/\b\w/g, (c) => c.toUpperCase())
+        .trim();
+      if (decoded.length > 3 && !decoded.toLowerCase().includes('download')) return decoded;
+    }
+
+    // 2. Check Path Slugs
     const pathParts = url.pathname.split('/').filter(Boolean);
 
     for (let part of pathParts) {
       part = part.replace(/\.html?$/i, '');
-      part = part.replace(/-p-\d+.*$/i, '');
-      part = part.replace(/-g-\d+.*$/i, '');
-      
-      // If it contains dashes and is descriptive
-      if (part.includes('-') && part.length > 5 && !part.startsWith('pr') && !part.startsWith('risk') && !part.startsWith('cart')) {
+      part = part.replace(/-p-\d+.*$/i, ''); // SHEIN ID suffix
+      part = part.replace(/-g-\d+.*$/i, ''); // TEMU ID suffix
+      part = part.replace(/^goods-/i, '');
+
+      // Skip common non-descriptive path segments
+      if (
+        part === 'goods' ||
+        part === 'product' ||
+        part === 'pr' ||
+        part === 'm' ||
+        part === 'k' ||
+        part === 't' ||
+        part === 'maldives' ||
+        part === 'us' ||
+        part === 'cart' ||
+        part === 'checkout' ||
+        part.toLowerCase().includes('download')
+      ) {
+        continue;
+      }
+
+      if (part.includes('-') && part.length > 3) {
         const words = part
-          .replace(/[-_]/g, ' ')
+          .replace(/[-_+]/g, ' ')
           .replace(/\b\w/g, (c) => c.toUpperCase())
           .replace(/\s+/g, ' ')
           .trim();
         if (words.length > 3) return words;
       }
+    }
+
+    // 3. Check goods_id or shortlink code fallback for TEMU
+    if (store === 'temu' || url.hostname.includes('temu') || url.hostname.includes('temu.to')) {
+      const goodsId = url.searchParams.get('goods_id') || url.pathname.match(/(\d{8,})/)?.[1];
+      if (goodsId) {
+        return `TEMU Product #${goodsId}`;
+      }
+
+      // Check shortlink code like temu.to/m/u123456
+      if (url.pathname.includes('/m/') || url.pathname.includes('/k/') || url.pathname.includes('/t/')) {
+        const code = url.pathname.split('/').filter(Boolean).pop();
+        if (code) {
+          return `TEMU App Item (${code})`;
+        }
+      }
+      return 'TEMU Product Item';
+    }
+
+    // 4. Check SHEIN product ID fallback
+    if (store === 'shein' || url.hostname.includes('shein') || url.hostname.includes('shein.top')) {
+      const sheinId = url.pathname.match(/-p-(\d+)/)?.[1] || url.searchParams.get('goods_id');
+      if (sheinId) {
+        return `SHEIN Fashion Item #${sheinId}`;
+      }
+      return 'SHEIN Fashion Item';
     }
   } catch {
     // Ignore URL parse error

@@ -65,7 +65,7 @@ export const STORES: Record<StorePlatform, StoreInfo> = {
 };
 
 /**
- * Extracts clean URL from pasted text (handles mobile share blurbs like "Look what I found https://shein.top/xyz")
+ * Extracts clean URL from pasted text (handles mobile share blurbs like "Look what I found https://shein.top/xyz" or "Temu coupon https://temu.to/m/abc")
  */
 export function extractUrlFromText(text: string): string {
   if (!text) return '';
@@ -76,13 +76,31 @@ export function extractUrlFromText(text: string): string {
 
 export function detectStoreFromUrl(url: string): ItemStorePlatform {
   const clean = (url || '').toLowerCase();
-  if (clean.includes('shein.top') || clean.includes('shein.com') || clean.includes('shein.')) {
+  if (
+    clean.includes('shein.top') ||
+    clean.includes('shein.com') ||
+    clean.includes('shein.') ||
+    clean.includes('m.shein') ||
+    clean.includes('us.shein')
+  ) {
     return 'shein';
   }
-  if (clean.includes('temu.to') || clean.includes('temu.com') || clean.includes('temu.')) {
+  if (
+    clean.includes('temu.to') ||
+    clean.includes('temu.com') ||
+    clean.includes('temu.') ||
+    clean.includes('share.temu') ||
+    clean.includes('app.temu') ||
+    clean.includes('m.temu')
+  ) {
     return 'temu';
   }
-  if (clean.includes('iherb.co') || clean.includes('iherb.com') || clean.includes('iherb.')) {
+  if (
+    clean.includes('iherb.co') ||
+    clean.includes('iherb.com') ||
+    clean.includes('iherb.') ||
+    clean.includes('m.iherb')
+  ) {
     return 'iherb';
   }
   return 'other';

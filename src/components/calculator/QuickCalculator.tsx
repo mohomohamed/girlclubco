@@ -80,13 +80,15 @@ export default function QuickCalculator() {
     }
   };
 
-  // Auto-Fetch function
+  // Improved Auto-Fetch function with guaranteed TEMU / SHEIN fallbacks
   const fetchLinkAttributes = async (id: string, rawText: string) => {
     const cleanUrl = extractUrlFromText(rawText);
     if (!cleanUrl || !cleanUrl.startsWith('http')) return;
 
+    const detected = detectStoreFromUrl(cleanUrl);
+
     setItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, isFetching: true } : item))
+      prev.map((item) => (item.id === id ? { ...item, isFetching: true, platform: detected !== 'other' ? detected : item.platform } : item))
     );
 
     try {
@@ -98,7 +100,7 @@ export default function QuickCalculator() {
             if (item.id === id) {
               return {
                 ...item,
-                platform: data.platform || item.platform,
+                platform: data.platform || (detected !== 'other' ? detected : item.platform),
                 title: data.title || item.title,
                 imageUrl: data.imageUrl || item.imageUrl,
                 priceUsd: data.priceUsd && !item.priceUsd ? data.priceUsd.toString() : item.priceUsd,
@@ -143,7 +145,7 @@ export default function QuickCalculator() {
     if (clean.startsWith('http://') || clean.startsWith('https://')) {
       debounceTimers.current[id] = setTimeout(() => {
         fetchLinkAttributes(id, clean);
-      }, 400);
+      }, 350);
     }
   };
 
@@ -192,7 +194,7 @@ export default function QuickCalculator() {
             Build Your Order & Send to WhatsApp
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 mt-1">
-            Add links from <strong>SHEIN, TEMU & iHerb</strong>. Pay via BML / MIB (Transfer only).
+            Add links from <strong>SHEIN, TEMU & iHerb</strong> — details auto-scan instantly! Pay via BML / MIB (Transfer only).
           </p>
         </div>
 
@@ -385,13 +387,21 @@ export default function QuickCalculator() {
                             }}
                           />
                         ) : (
-                          <div className="w-12 h-12 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center flex-shrink-0">
+                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                            item.platform === 'temu' ? 'bg-orange-100 text-orange-600' : item.platform === 'iherb' ? 'bg-emerald-100 text-emerald-600' : 'bg-pink-100 text-pink-600'
+                          }`}>
                             <ShoppingBag className="w-5 h-5" />
                           </div>
                         )}
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-[9px] uppercase font-extrabold bg-pink-200/80 text-pink-900 px-2 py-0.5 rounded-md">
+                            <span className={`text-[9px] uppercase font-extrabold px-2 py-0.5 rounded-md ${
+                              item.platform === 'temu'
+                                ? 'bg-orange-200 text-orange-950'
+                                : item.platform === 'iherb'
+                                ? 'bg-emerald-200 text-emerald-950'
+                                : 'bg-pink-200/80 text-pink-900'
+                            }`}>
                               {item.platform.toUpperCase()}
                             </span>
                             <span className="text-[10px] font-bold text-emerald-700 flex items-center gap-1">
