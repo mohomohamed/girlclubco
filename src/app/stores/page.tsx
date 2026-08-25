@@ -1,12 +1,12 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Store, ShoppingBag, ArrowRight, MessageCircle, Calendar, Sparkles, Layers, Check } from 'lucide-react';
+import { Store, ShoppingBag, ArrowUpRight, ArrowRight, MessageCircle, Calendar, Sparkles, Layers, ExternalLink } from 'lucide-react';
 import { SITE_CONFIG, STORES } from '@/lib/config';
 
 export const metadata: Metadata = {
   title: 'Stores & Brands — SHEIN, TEMU, iHerb, AliExpress, ASOS & YesStyle | GirlClub Maldives',
-  description: 'Shop popular international online stores with assisted pre-order service and delivery across Maldives in MVR.',
+  description: 'Browse official international store websites, copy your favorite product links, and let GirlClub deliver them across Maldives in local MVR.',
 };
 
 export default function StoresPage() {
@@ -22,6 +22,7 @@ export default function StoresPage() {
       btnColor: 'bg-slate-900 hover:bg-slate-800',
       tagColor: 'bg-slate-100 text-slate-800',
       initial: 'S',
+      externalUrl: 'https://www.shein.com',
     },
     {
       id: 'temu',
@@ -34,6 +35,7 @@ export default function StoresPage() {
       btnColor: 'bg-orange-600 hover:bg-orange-500',
       tagColor: 'bg-orange-50 text-orange-800',
       initial: 'T',
+      externalUrl: 'https://www.temu.com',
     },
     {
       id: 'iherb',
@@ -46,6 +48,7 @@ export default function StoresPage() {
       btnColor: 'bg-emerald-700 hover:bg-emerald-600',
       tagColor: 'bg-emerald-50 text-emerald-800',
       initial: '🌿',
+      externalUrl: 'https://www.iherb.com',
     },
     {
       id: 'aliexpress',
@@ -58,6 +61,7 @@ export default function StoresPage() {
       btnColor: 'bg-rose-600 hover:bg-rose-500',
       tagColor: 'bg-rose-50 text-rose-800',
       initial: '📦',
+      externalUrl: 'https://www.aliexpress.com',
     },
     {
       id: 'asos',
@@ -70,6 +74,7 @@ export default function StoresPage() {
       btnColor: 'bg-slate-800 hover:bg-slate-700',
       tagColor: 'bg-slate-100 text-slate-800',
       initial: '👗',
+      externalUrl: 'https://www.asos.com',
     },
     {
       id: 'yesstyle',
@@ -82,11 +87,12 @@ export default function StoresPage() {
       btnColor: 'bg-pink-600 hover:bg-pink-500',
       tagColor: 'bg-pink-50 text-pink-800',
       initial: '💄',
+      externalUrl: 'https://www.yesstyle.com',
     },
   ];
 
   return (
-    <div className="py-8 sm:py-12 space-y-12">
+    <div className="py-8 sm:py-12 space-y-10">
       {/* Header */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100 text-pink-800 text-xs font-semibold">
@@ -94,11 +100,39 @@ export default function StoresPage() {
           <span>Supported Stores</span>
         </div>
         <h1 className="font-serif-luxury text-3xl sm:text-4xl font-bold text-slate-900">
-          Shop Top International Stores
+          Browse & Shop Official Stores
         </h1>
         <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto">
-          We handle ordering, international air/sea freight, and Malé customs clearance. Pay conveniently in MVR via BML or MIB.
+          Click any store below to browse products on their official site. Copy the link of any item you like and paste it in our <strong>Order</strong> tab!
         </p>
+      </div>
+
+      {/* 3-Step Micro Guide */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-pink-50/70 border border-pink-100 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+          <div className="flex items-center gap-3">
+            <span className="w-6 h-6 rounded-full bg-pink-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">
+              1
+            </span>
+            <span className="font-semibold text-slate-800">Browse official store ↗</span>
+          </div>
+          <div className="hidden sm:block text-pink-300 font-bold">→</div>
+          <div className="flex items-center gap-3">
+            <span className="w-6 h-6 rounded-full bg-pink-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">
+              2
+            </span>
+            <span className="font-semibold text-slate-800">Copy the product link</span>
+          </div>
+          <div className="hidden sm:block text-pink-300 font-bold">→</div>
+          <div className="flex items-center gap-3">
+            <span className="w-6 h-6 rounded-full bg-pink-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-xs">
+              3
+            </span>
+            <Link href="/order" className="font-bold text-pink-700 underline underline-offset-2 hover:text-pink-800">
+              Paste in Order tab
+            </Link>
+          </div>
+        </div>
       </div>
 
       {/* Stores Showcase Grid */}
@@ -146,13 +180,23 @@ export default function StoresPage() {
                 </div>
               </div>
 
-              {/* Action */}
-              <div className="pt-2">
+              {/* Action: Open official store website in new tab */}
+              <div className="pt-2 flex flex-col sm:flex-row gap-2">
+                <a
+                  href={st.externalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex-1 inline-flex items-center justify-center gap-1.5 ${st.btnColor} text-white text-xs font-bold py-3 px-4 rounded-xl transition shadow-sm hover:scale-[1.01] active:scale-95`}
+                >
+                  <span>Shop on {st.name}</span>
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+
                 <Link
                   href="/order"
-                  className={`w-full inline-flex items-center justify-center gap-1.5 ${st.btnColor} text-white text-xs font-bold py-3 px-4 rounded-xl transition shadow-sm`}
+                  className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1"
                 >
-                  <span>Order {st.name} Items</span>
+                  <span>Order Tab</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
@@ -160,17 +204,17 @@ export default function StoresPage() {
           ))}
         </div>
 
-        {/* Mixed Store Orders Banner */}
+        {/* Ready to order banner */}
         <div className="bg-gradient-to-r from-purple-900 via-slate-900 to-pink-950 text-white rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="space-y-2 text-center sm:text-left">
             <span className="inline-flex items-center gap-1 text-[11px] font-bold text-pink-300 bg-white/10 px-3 py-0.5 rounded-full">
-              <Layers className="w-3.5 h-3.5" /> All-in-One Order
+              <Layers className="w-3.5 h-3.5" /> Ready to Order?
             </span>
             <h3 className="font-serif-luxury text-2xl font-bold">
-              Want to combine items from different stores?
+              Got your links ready?
             </h3>
             <p className="text-xs sm:text-sm text-slate-300 max-w-lg">
-              Paste links from SHEIN, TEMU, iHerb, AliExpress, ASOS, and YesStyle together into one single consolidated pre-order!
+              Paste your links into our multi-link order form, calculate your total in MVR, and dispatch directly to WhatsApp!
             </p>
           </div>
 
@@ -178,7 +222,7 @@ export default function StoresPage() {
             href="/order"
             className="flex-shrink-0 bg-pink-600 hover:bg-pink-500 text-white font-bold text-xs sm:text-sm px-6 py-3.5 rounded-xl shadow-lg transition"
           >
-            Start Mixed Order
+            Go to Order Form
           </Link>
         </div>
       </div>

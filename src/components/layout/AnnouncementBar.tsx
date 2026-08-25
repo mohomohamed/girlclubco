@@ -11,7 +11,7 @@ export default function AnnouncementBar() {
           <Sparkles className="w-2.5 h-2.5 text-yellow-300" /> Assisted Pre-Orders
         </span>
         <span className="text-pink-50 font-medium">
-          Shop SHEIN, TEMU & iHerb in Maldives • Doorstep & Island Boat Delivery • Pay via BML / MIB (Transfer Only)
+          SHEIN • TEMU • iHerb • AliExpress • ASOS • YesStyle • Doorstep & Island Boat Delivery in MVR
         </span>
       </div>
     </div>

@@ -23,13 +23,13 @@ export default function HeroSection() {
         {/* Headline */}
         <h1 className="font-serif-luxury text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.18]">
           Shop <span className="text-pink-600">SHEIN</span>,{' '}
-          <span className="text-orange-600">TEMU</span> &{' '}
-          <span className="text-emerald-700">iHerb</span> with Ease.
+          <span className="text-orange-600">TEMU</span>,{' '}
+          <span className="text-emerald-700">iHerb</span> & More.
         </h1>
 
         {/* Direct value proposition without dollar rate spam */}
         <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
-          No international bank card? Simply send us your cart or product links on <strong>WhatsApp</strong>, pay conveniently in <strong>MVR</strong> via BML or MIB, and we deliver right to your door.
+          No international card? Simply paste your links from SHEIN, TEMU, iHerb, AliExpress, ASOS & YesStyle, pay conveniently in <strong>MVR</strong> via BML or MIB, and we deliver right to your door.
         </p>
 
         {/* Big High-Converting Action Buttons */}
@@ -41,7 +41,7 @@ export default function HeroSection() {
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm sm:text-base px-8 py-4 rounded-full shadow-lg shadow-emerald-700/25 hover:shadow-xl hover:scale-105 transition-all duration-200 active:scale-95"
           >
             <MessageCircle className="w-5 h-5 fill-white text-emerald-600" />
-            <span>Send Your Cart on WhatsApp</span>
+            <span>Send Cart on WhatsApp</span>
           </a>
 
           <Link
@@ -69,51 +69,72 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Store Highlight Cards - Clean & Focused on Frequency, not rate spam */}
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto text-left">
+        {/* Store Highlight Cards Grid (6 Stores) */}
+        <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-4xl mx-auto text-left">
           {/* SHEIN */}
-          <Link href="/stores#shein" className="bg-white rounded-2xl p-5 border border-pink-100 shadow-soft hover:border-pink-300 transition group">
+          <Link href="/stores#shein" className="bg-white rounded-2xl p-4 sm:p-5 border border-pink-100 shadow-soft hover:border-pink-300 transition group">
             <div className="flex items-center justify-between">
-              <span className="font-extrabold text-sm text-slate-900 uppercase">SHEIN</span>
-              <span className="text-[11px] font-bold text-pink-600 bg-pink-50 px-2 py-0.5 rounded-md">
-                2x Weekly Batches
+              <span className="font-extrabold text-xs sm:text-sm text-slate-900 uppercase">SHEIN</span>
+              <span className="text-[10px] font-bold text-pink-600 bg-pink-50 px-2 py-0.5 rounded-md">
+                Tue & Sun
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-1">Fashion, dresses, glam & accessories</p>
-            <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-pink-600 font-semibold group-hover:underline">
-              <span>View store schedule</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </div>
+            <p className="text-[11px] sm:text-xs text-slate-500 mt-1 line-clamp-1">Fashion & Dresses</p>
           </Link>
 
           {/* TEMU */}
-          <Link href="/stores#temu" className="bg-white rounded-2xl p-5 border border-orange-100 shadow-soft hover:border-orange-300 transition group">
+          <Link href="/stores#temu" className="bg-white rounded-2xl p-4 sm:p-5 border border-orange-100 shadow-soft hover:border-orange-300 transition group">
             <div className="flex items-center justify-between">
-              <span className="font-extrabold text-sm text-slate-900 uppercase">TEMU</span>
-              <span className="text-[11px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-md">
-                2x Weekly Batches
+              <span className="font-extrabold text-xs sm:text-sm text-slate-900 uppercase">TEMU</span>
+              <span className="text-[10px] font-bold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-md">
+                Wed & Sun
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-1">Home organization, kitchen & lifestyle</p>
-            <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-orange-600 font-semibold group-hover:underline">
-              <span>View store schedule</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </div>
+            <p className="text-[11px] sm:text-xs text-slate-500 mt-1 line-clamp-1">Home & Gadgets</p>
           </Link>
 
           {/* iHerb */}
-          <Link href="/stores#iherb" className="bg-white rounded-2xl p-5 border border-emerald-100 shadow-soft hover:border-emerald-300 transition group">
+          <Link href="/stores#iherb" className="bg-white rounded-2xl p-4 sm:p-5 border border-emerald-100 shadow-soft hover:border-emerald-300 transition group">
             <div className="flex items-center justify-between">
-              <span className="font-extrabold text-sm text-slate-900 uppercase">iHerb</span>
-              <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
-                Weekly Batches
+              <span className="font-extrabold text-xs sm:text-sm text-slate-900 uppercase">iHerb</span>
+              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+                Fridays
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-1">Korean skincare, vitamins & wellness</p>
-            <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-emerald-700 font-semibold group-hover:underline">
-              <span>View store schedule</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+            <p className="text-[11px] sm:text-xs text-slate-500 mt-1 line-clamp-1">Skincare & Vitamins</p>
+          </Link>
+
+          {/* AliExpress */}
+          <Link href="/stores#aliexpress" className="bg-white rounded-2xl p-4 sm:p-5 border border-rose-100 shadow-soft hover:border-rose-300 transition group">
+            <div className="flex items-center justify-between">
+              <span className="font-extrabold text-xs sm:text-sm text-slate-900 uppercase">AliExpress</span>
+              <span className="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-md">
+                Tue & Thu
+              </span>
             </div>
+            <p className="text-[11px] sm:text-xs text-slate-500 mt-1 line-clamp-1">Tech & Crafts</p>
+          </Link>
+
+          {/* ASOS */}
+          <Link href="/stores#asos" className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-soft hover:border-slate-400 transition group">
+            <div className="flex items-center justify-between">
+              <span className="font-extrabold text-xs sm:text-sm text-slate-900 uppercase">ASOS</span>
+              <span className="text-[10px] font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md">
+                Fridays
+              </span>
+            </div>
+            <p className="text-[11px] sm:text-xs text-slate-500 mt-1 line-clamp-1">Outfits & Shoes</p>
+          </Link>
+
+          {/* YesStyle */}
+          <Link href="/stores#yesstyle" className="bg-white rounded-2xl p-4 sm:p-5 border border-pink-100 shadow-soft hover:border-pink-300 transition group">
+            <div className="flex items-center justify-between">
+              <span className="font-extrabold text-xs sm:text-sm text-slate-900 uppercase">YesStyle</span>
+              <span className="text-[10px] font-bold text-pink-600 bg-pink-50 px-2 py-0.5 rounded-md">
+                Wednesdays
+              </span>
+            </div>
+            <p className="text-[11px] sm:text-xs text-slate-500 mt-1 line-clamp-1">K-Beauty Trends</p>
           </Link>
         </div>
       </div>
