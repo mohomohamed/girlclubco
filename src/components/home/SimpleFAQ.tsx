@@ -11,27 +11,27 @@ export default function SimpleFAQ() {
   const faqs = [
     {
       q: 'How does the assisted ordering process work?',
-      a: 'Browse SHEIN, TEMU, or iHerb, copy your product links, and submit them through our Multi-Link Order Builder or directly on WhatsApp (+960 7614170). Our team manually evaluates item availability, stock status, and exact prices/qty before sending your final confirmation and BML/MIB transfer details.',
+      a: 'Browse SHEIN, TEMU, iHerb, AliExpress, ASOS, or YesStyle, copy your product links, and paste them into our Order form or send them directly to WhatsApp (+960 7614170). Our team manually verifies product availability, sizes, and exact prices before sending your BML/MIB transfer confirmation.',
     },
     {
       q: 'How do I pay in MVR? Is it bank transfer only?',
-      a: `Payment is strictly through local bank transfer in MVR to our Bank of Maldives (BML: ${SITE_CONFIG.bmlAccount}) or Maldives Islamic Bank (MIB: ${SITE_CONFIG.mibAccount}) account. No foreign currency or international credit card is required.`,
+      a: `Yes, payment is strictly via local bank transfer in MVR to our Bank of Maldives (BML: ${SITE_CONFIG.bmlAccount}) or Maldives Islamic Bank (MIB: ${SITE_CONFIG.mibAccount}) account. No international bank card or USD currency is needed!`,
     },
     {
-      q: 'Can I combine items from SHEIN, TEMU, and iHerb in one order?',
-      a: 'Yes! You can combine fashion from SHEIN, home gadgets from TEMU, and skincare from iHerb into a single consolidated order.',
+      q: 'Can I combine items from different stores in one order?',
+      a: 'Yes! You can combine clothing from SHEIN/ASOS, gadgets from TEMU/AliExpress, and skincare from iHerb/YesStyle into one consolidated order.',
     },
     {
-      q: 'How long does delivery take to arrive in Maldives?',
-      a: 'Estimated delivery is generally 10 to 18 business days from the scheduled batch order date. Once cleared at Malé customs, we arrange immediate doorstep delivery or boat handover.',
+      q: 'How long does delivery take to arrive in the Maldives?',
+      a: 'Estimated transit is generally 10 to 18 business days from the scheduled store batch date. Once cleared at Malé customs, we arrange immediate doorstep delivery or boat handover.',
     },
     {
       q: 'Where do you deliver in the Maldives?',
-      a: 'We provide free self-collection, doorstep delivery across Malé (+MVR 35) and Hulhumalé (+MVR 45), and direct handover to island cargo boats at Malé harbor (+MVR 75).',
+      a: 'We offer free self-collection in Malé, doorstep delivery across Malé (+MVR 35) and Hulhumalé (+MVR 45), and direct handover to island cargo boats and couriers at Malé harbor (+MVR 75) for all 20 atolls.',
     },
     {
       q: 'What happens if an item goes out of stock?',
-      a: 'If any product becomes unavailable before checkout, we notify you immediately on WhatsApp and provide a 100% immediate refund in MVR back to your bank account.',
+      a: 'If any product becomes out of stock or cannot be fulfilled before checkout, we notify you immediately on WhatsApp and provide a 100% instant refund in MVR back to your bank account.',
     },
   ];
 
