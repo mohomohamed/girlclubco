@@ -93,7 +93,7 @@ export default function SimpleSteps() {
               className="inline-flex items-center gap-2 bg-white text-emerald-800 hover:bg-emerald-50 font-bold text-xs sm:text-sm px-6 py-3 rounded-full shadow-md hover:scale-105 transition"
             >
               <MessageCircle className="w-4 h-4 fill-emerald-800" />
-              <span>Chat on WhatsApp (+960 7614170)</span>
+              <span>Chat on WhatsApp (+960 9964143)</span>
             </a>
 
             <Link

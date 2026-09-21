@@ -20,7 +20,7 @@ Designed with a single focus: **Enable customers to calculate their MVR total an
 Edit `src/lib/config.ts`:
 ```typescript
 export const SITE_CONFIG = {
-  whatsappNumber: "9607999888", // Your business WhatsApp number
+  whatsappNumber: "9609964143", // Your business WhatsApp number
   instagramHandle: "girlclub.mv",
   bmlAccount: "7730000123456 (MVR)",
   mibAccount: "9010000654321 (MVR)",

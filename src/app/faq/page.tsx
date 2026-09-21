@@ -15,7 +15,7 @@ export default function FAQPage() {
   const faqs = [
     {
       q: 'How does the assisted pre-ordering process work?',
-      a: 'Browse SHEIN, TEMU, iHerb, AliExpress, ASOS, or YesStyle on your phone or computer. Copy the product links, specify your sizes/quantities, and submit them in our Order form or send them directly to WhatsApp (+960 7614170). Our team manually verifies item availability, stock status, and exact prices before sending your official BML/MIB transfer confirmation.',
+      a: 'Browse SHEIN, TEMU, iHerb, AliExpress, ASOS, or YesStyle on your phone or computer. Copy the product links, specify your sizes/quantities, and submit them in our Order form or send them directly to WhatsApp (+960 9964143). Our team manually verifies item availability, stock status, and exact prices before sending your official BML/MIB transfer confirmation.',
     },
     {
       q: 'How do I pay? Is it local bank transfer only?',
@@ -89,7 +89,7 @@ export default function FAQPage() {
               Still have questions?
             </h3>
             <p className="text-xs sm:text-sm text-slate-300">
-              Chat directly with our customer support team on WhatsApp (+960 7614170) anytime.
+              Chat directly with our customer support team on WhatsApp (+960 9964143) anytime.
             </p>
           </div>
 

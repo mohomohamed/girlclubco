@@ -62,7 +62,7 @@ export default function Footer() {
                 className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-full shadow-sm transition active:scale-95"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
-                <span>+960 7614170</span>
+                <span>+960 9964143</span>
               </a>
 
               <a

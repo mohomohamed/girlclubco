@@ -27,7 +27,7 @@ export default function HowItWorksPage() {
     {
       num: '02',
       title: 'Paste Links or Send on WhatsApp',
-      desc: 'Add your links in our online Order form to see your MVR price estimate, or share links directly to our WhatsApp (+960 7614170).',
+      desc: 'Add your links in our online Order form to see your MVR price estimate, or share links directly to our WhatsApp (+960 9964143).',
       icon: MessageCircle,
       color: 'bg-emerald-100 text-emerald-600',
     },

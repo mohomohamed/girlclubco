@@ -15,7 +15,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: 'GirlClub Maldives — SHEIN • TEMU • iHerb Assisted Shopping Service',
-  description: 'Shop SHEIN, TEMU & iHerb in the Maldives. Pay locally in MVR via BML or MIB (Transfer only). Send your cart links on WhatsApp +960 7614170.',
+  description: 'Shop SHEIN, TEMU & iHerb in the Maldives. Pay locally in MVR via BML or MIB (Transfer only). Send your cart links on WhatsApp +960 9964143.',
   keywords: ['SHEIN Maldives', 'TEMU Maldives', 'iHerb Maldives', 'Assisted shopping Maldives', 'Online shopping MVR', 'GirlClub Maldives'],
   icons: {
     icon: [

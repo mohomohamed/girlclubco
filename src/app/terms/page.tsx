@@ -86,7 +86,7 @@ export default function TermsPage() {
               </div>
             </div>
             <p className="text-xs text-slate-500 pt-1">
-              Customers must share a valid transaction reference or transfer receipt on WhatsApp (+960 7614170) to confirm the order.
+              Customers must share a valid transaction reference or transfer receipt on WhatsApp (+960 9964143) to confirm the order.
             </p>
           </section>
 
@@ -169,7 +169,7 @@ export default function TermsPage() {
                 className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-5 py-2.5 rounded-full transition"
               >
                 <MessageCircle className="w-4 h-4 fill-white" />
-                <span>Contact on WhatsApp (+960 7614170)</span>
+                <span>Contact on WhatsApp (+960 9964143)</span>
               </a>
             </div>
           </section>

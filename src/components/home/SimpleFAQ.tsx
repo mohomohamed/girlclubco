@@ -11,7 +11,7 @@ export default function SimpleFAQ() {
   const faqs = [
     {
       q: 'How does the assisted ordering process work?',
-      a: 'Browse SHEIN, TEMU, iHerb, AliExpress, ASOS, or YesStyle, copy your product links, and paste them into our Order form or send them directly to WhatsApp (+960 7614170). Our team manually verifies product availability, sizes, and exact prices before sending your BML/MIB transfer confirmation.',
+      a: 'Browse SHEIN, TEMU, iHerb, AliExpress, ASOS, or YesStyle, copy your product links, and paste them into our Order form or send them directly to WhatsApp (+960 9964143). Our team manually verifies product availability, sizes, and exact prices before sending your BML/MIB transfer confirmation.',
     },
     {
       q: 'How do I pay in MVR? Is it bank transfer only?',
